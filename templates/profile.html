@@ -80,7 +80,7 @@ function GetURLParameter(sParam)
         <div class="container-fluid">
             {%for r in repos%}
             {%if r.notes != ''%}
-            <div class="panel btn-danger">
+            <div class="panel redback btn-danger ">
 				{%else%}
 				<div class="panel panel-default">
                     {%endif%}
@@ -143,7 +143,7 @@ function GetURLParameter(sParam)
                         </h4>
                     </div>
                     <div id="coll{{forloop.counter}}" class="panel-collapse collapse">
-                        <div class="panel-body darkl">
+                        <div class="panel-body ">
 
 							<div class="ontologiesspace"> Loading ontologies ...</div>
 							<!--
@@ -349,7 +349,7 @@ $( document ).ready(function() {
 		    		republish_control_class = 'publish-class';
 		    	}
 		    	//newly added
-		    	bodypanel.html(temp+"<div class='ontology col-md-3 col-xs-3'>"+ontologies[o].ontology+"</div>"+
+		    	bodypanel.html(temp+"<div class='ontology col-md-3 col-xs-3'>"+ontologies[o].ontology.substr(1)+"</div>"+
                         '<div class="col-md-2 col-xs-2">'+
 		    			    '<input type="checkbox" class=" " name="'+ontologies[o].ontology+'-ar2dtool" checked>'+
 		    			'</div>'+
