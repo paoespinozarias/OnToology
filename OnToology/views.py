@@ -334,6 +334,7 @@ def login(request):
     #if 'username' not in request.GET:
     #    return HttpResponseRedirect('/')
     #username = request.GET['username']
+    print 'client_id login: '+client_id_login
     redirect_url = host + '/login_get_access'
     sec = ''.join([random.choice(string.ascii_letters + string.digits) for _ in range(9)])
     request.session['state'] = sec

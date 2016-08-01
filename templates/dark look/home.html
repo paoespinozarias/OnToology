@@ -11,10 +11,10 @@
 	<div class="container-fluid">
 
 	<span class=" col-md-9 col-xs-9">
-		<input type="text" name="target_repo" id="target_repo_select" class="form-control input-lg" placeholder="user/repo" ></br>
+		<input type="text" name="target_repo" id="target_repo_select" class="form-control" placeholder="user/repo" ></br>
 	</span>
 	<span class="col-md-3 col-xs-3">
-		<input type="submit" class="form-control color1back color3 input-lg" value="Watch this repo"/>
+		<input type="submit" class="form-control btn" value="Watch this repo"/>
 	</span>
 	</div>
 
@@ -111,7 +111,7 @@ OnToology can handle <span class="underline">OWL</span> and <span class="underli
 </tr>
 {%for r in repos%}
 	<tr>
-		<td><a class="color1" href="http://github.com/{{r.url}}">{{r.url}}</a></td>
+		<td><a href="http://github.com/{{r.url}}">{{r.url}}</a></td>
 		<td>{{r.state}}</td>
 		<!-- 
 		<td><a href="media/logs/{{r.owner}}.log">log</a></td>

@@ -56,22 +56,6 @@ function GetURLParameter(sParam)
 	<a class="emph" href="../profilebeta">Try out beta version of "My repositories" page</a>
 </h5>
 -->
-
-<form action="/" method="GET" style="color: #999">
-    <div class="form-group">
-        <div class="container-fluid">
-
-	<span class=" col-md-9 col-xs-9">
-		<input type="text" name="target_repo" id="target_repo_select" class="form-control input-lg" placeholder="user/repo"></br>
-	</span>
-	<span class="col-md-3 col-xs-3">
-		<input type="submit" class="form-control color1back color3 input-lg" value="Watch this repo"/>
-	</span>
-        </div>
-
-    </div>
-</form>
-
 <span id="profiletables">
 
 	<h3>Choose one of the below repo by clicking on it</h3>
@@ -181,7 +165,20 @@ $("[name='{{r.id}}']").bootstrapSwitch('state',{{r.previsual}});
 </br>
 
 
+<form action="/" method="GET" style="color: #999">
+    <div class="form-group">
+        <div class="container-fluid">
 
+	<span class=" col-md-9 col-xs-9">
+		<input type="text" name="target_repo" id="target_repo_select" class="form-control" placeholder="user/repo"></br>
+	</span>
+	<span class="col-md-3 col-xs-3">
+		<input type="submit" class="form-control btn" value="Watch this repo"/>
+	</span>
+        </div>
+
+    </div>
+</form>
 
 
 <!--
@@ -425,13 +422,10 @@ $( document ).ready(function() {
 
 <table class="table">
     <tr>
-		<!--
         <th align="center" style="text-align: center;">Reserved Names</th>
-		-->
-		<th >Reserved Names</th>
-        <th >Repository</th>
-        <th >Ontology</th>
-        <th >w3id URL</th>
+        <th align="center" style="text-align: center;">Repository</th>
+        <th align="center" style="text-align: center;">Ontology</th>
+        <th align="center" style="text-align: center;">w3id URL</th>
     </tr>
     {%for p in pnames%}
     <tr>
