@@ -139,21 +139,35 @@ function GetURLParameter(sParam)
 
                                     <div class="col-md-4 col-xs-4 darktext" style="text-align: left">{{r.url}}
                                     </div>
-                                    <div class="col-md-1 col-xs-1 repo" style="color: #000;" url="{{r.url}}">
-                                        <span class="glyphicon glyphicon-refresh" title="Get ontologies configuration in this repo"></span>
+                                    <div class="col-md-1 col-xs-1 " style="color: #000;" >
+                                        <span class="glyphicon glyphicon-refresh  repo" url="{{r.url}}" title="Get ontologies configuration in this repo"></span>
+                                    </div>
+									<div class="col-md-1 col-xs-1">
+										<form id="generateall{{r.url}}" action="generateforall">
+											<input type="hidden" name="repo" value={{r.url}}/>
+										</form>
+										<a class=""
+										   onclick="document.getElementById('generateall{{r.url}}').submit()"
+										   data-toggle="tooltip" data-placement="top"
+										   title="Generate documentation, diagrams and evaluation">
+											<img src="media/icons/regenerate_all.png" height="20px">
+										</a>
+									</div>
+                                    <div class="col-md-1 col-xs-1"> <a href="/renew_previsual?target_repo={{r.url}}" title="renew previsualization">
+                                        <img src="media/icons/renew_previsual.png" height="20px"> </a>
                                     </div>
                                     <div class="col-md-1 col-xs-1">
-                                        <a class=""
-                                           onclick="document.getElementById('generateall{{r.url}}').submit()"
-                                           data-toggle="tooltip" data-placement="top"
-                                           title="Generate documentation, diagrams and evaluation">
-                                            <img src="media/icons/Administrative Tools Filled-100.png" height="20px">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-1 col-xs-1"><img src="media/icons/Open in Browser Filled-100.png"
-                                                                        height="20px"></div>
-                                    <div class="col-md-1 col-xs-1"><img src="media/icons/Open in Browser Filled-2.png"
-                                                                        height="20px"></div>
+                                    {%if r.previsual_page_available %}
+                                        <a href="http://{{r.user}}.github.io/{{r.rrepo}}" title="Go to previsualization"><img src="media/icons/go_to_previsual.png"
+                                                                        height="20px"></a>
+
+                                    {%endif%}
+
+
+
+
+
+                                        </div>
                                     <!--<div class="col-md-4 col-xs-4 darktext">{{r.state}}</div>-->
                                     <!--
                                     <div class="col-md-4 col-xs-4 darktext">{{r.notes}}</div>
@@ -363,7 +377,7 @@ $( document ).ready(function() {
 		}		
 		var targetpanel = $(this);
 		//var bodypanel = $(this).parent().find(".ontologiesspace");
-		var bodypanel = $(this).parent().parent().parent().parent().parent().find(".ontologiesspace");
+		var bodypanel = $(this).parent().parent().parent().parent().parent().parent().find(".ontologiesspace");
 		current_url = $(this).attr('url');
 		//greyout();
 		$.ajax({
@@ -398,16 +412,10 @@ $( document ).ready(function() {
 		    	temp=bodypanel.html();
 		    	//alert(ontologies[o].published);
 		    	if(ontologies[o].published==true){
-		    		//alert('inside the true');
-		    		republish_class = 'btn-default';//'btn-success';
-		    		republish_text = 're-publish';
-		    		republish_control_class = 'republish-class';
+		    		republish_img = '/media/icons/republish.png';
 		    	}
 		    	else{
-		    		//alert('inside the false');
-		    		republish_class = 'btn-default';
-		    		republish_text = 'publish';
-		    		republish_control_class = 'publish-class';
+		    	    republish_img = '/media/icons/publish.png';
 		    	}
 		    	//newly added
 		    	bodypanel.html(temp+"<div class='ontology col-md-3 col-xs-3'>"+ontologies[o].ontology.substr(1)+"</div>"+
@@ -421,13 +429,18 @@ $( document ).ready(function() {
     		    			'<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-widoco" checked>'+
     		    		'</div>'+
 		    			'<div class="col-md-2 col-xs-2 ">'+
-		    				'<span class="'+republish_control_class+'  btn '+republish_class+' col-md-12 col-xs-12" ontology="'+ontologies[o].ontology+
+		    			    '<button class="btn highl">'+
+		    				'<img src="'+republish_img+'" height="20px" ontology="'+ontologies[o].ontology+
 		    					'" pname="'+ontologies[o].pname+
-		    					'" repo="'+current_url+'" >'+republish_text+'</span></div>'+
+		    					'" repo="'+current_url+'" > </button></div>'+
+
+		    				//'<span class="'+republish_control_class+'  btn '+republish_class+' col-md-12 col-xs-12" ontology="'+ontologies[o].ontology+
+		    				//	'" pname="'+ontologies[o].pname+
+		    				//	'" repo="'+current_url+'" >'+republish_text+'</span></div>'+
 		    			'<div class="col-md-1 col-xs-1"> <form action="/get_bundle" method="POST">'+
 		    				'<input type="hidden" name="repo" value="'+current_url+'"/>'+
 		    				'<input type="hidden" name="ontology" value="'+ontologies[o].ontology+'"/>'+
-		    				'<button type="submit" class="highl btn glyphicon glyphicon-save-file" value="Download" name="Download"/>'+
+		    				'<button type="submit" class="btn highl" value="Download" name="Download"><img src="/media/icons/bundle_download.png" height="20px"></button>'+
 		    				'</form> </div>'
 		    			+"<br><br>"
 		    			);
