@@ -29,30 +29,7 @@ $( function() {
 
 });
 
-
-
-
-
-
 </script>
-
-
-<script>
-
-
-
-
-// Getter
-//var position = $( "#tooltip10" ).tooltip( "option", "position" );
-
-// Setter
-//$( "#tooltip10" ).tooltip( "option", "position", { my: "left+15 center", at: "right center" } );
-
-
-
-
-</script>
-
 
 <style>
     #myspinner {
@@ -65,7 +42,6 @@ $( function() {
     top: 0;
     background: #000;
     }
-
 
 </style>
 
@@ -86,9 +62,6 @@ function GetURLParameter(sParam)
     }
     return '';
 }
-
-
-
 
 </script>
 
@@ -143,15 +116,15 @@ function GetURLParameter(sParam)
                                         <span class="glyphicon glyphicon-refresh  repo" url="{{r.url}}" title="Get ontologies configuration in this repo"></span>
                                     </div>
 									<div class="col-md-1 col-xs-1">
-										<form id="generateall{{r.url}}" action="generateforall">
-											<input type="hidden" name="repo" value={{r.url}}/>
-										</form>
-										<a class=""
-										   onclick="document.getElementById('generateall{{r.url}}').submit()"
-										   data-toggle="tooltip" data-placement="top"
-										   title="Generate documentation, diagrams and evaluation">
-											<img src="media/icons/regenerate_all.png" height="20px">
-										</a>
+										<!--<form id="generateall{{r.url}}" action="generateforall">-->
+											<!--<input type="hidden" name="repo" value={{r.url}}/>-->
+										<!--</form>-->
+										<!--<a class=""-->
+										   <!--onclick="document.getElementById('generateall{{r.url}}').submit()"-->
+										   <!--data-toggle="tooltip" data-placement="top"-->
+										   <!--title="Generate documentation, diagrams and evaluation">-->
+											<!--<img src="media/icons/regenerate_all.png" height="20px">-->
+										<!--</a>-->
 									</div>
                                     <div class="col-md-1 col-xs-1"> <a href="/renew_previsual?target_repo={{r.url}}" title="renew previsualization">
                                         <img src="media/icons/renew_previsual.png" height="20px"> </a>
@@ -226,10 +199,10 @@ function GetURLParameter(sParam)
                             <div class="ontologiesspace">Make sure you merge the pull request with the generated files or click on regenerate all to generate them</div>
                             -->
                             </br>
-                            <form id="toolsform" action="" method="POST">
-                                <input type="submit" value="Save" text="Save" name="Save"
-                                       class="form-control btn btn-default savebtn"/>
-                            </form>
+                            <!--<form id="toolsform" action="" method="POST">-->
+                                <!--<input type="submit" value="Save" text="Save" name="Save"-->
+                                       <!--class="form-control btn btn-default savebtn"/>-->
+                            <!--</form>-->
                         </div>
                     </div>
                 </div>
@@ -241,41 +214,18 @@ function GetURLParameter(sParam)
 
 </span>
 
-<script> 
-//This script is for previsual checkboxes
-var False=false;
-var True=true;
-{%for r in repos%}
-$("[name='{{r.id}}']").bootstrapSwitch();
-$("[name='{{r.id}}']").bootstrapSwitch('state',{{r.previsual}}); 
-{%endfor%}
- 
-
-
-</script>
+<!--<script> -->
+<!--//This script is for previsual checkboxes-->
+<!--var False=false;-->
+<!--var True=true;-->
+<!--{%for r in repos%}-->
+<!--$("[name='{{r.id}}']").bootstrapSwitch();-->
+<!--$("[name='{{r.id}}']").bootstrapSwitch('state',{{r.previsual}}); -->
+<!--{%endfor%}-->
+<!--</script>-->
 
 
 </br>
-
-
-<!--
-
-<div class="container-fluid">
-
-	<form action="/" method="GET" style="color: #999">
-		<div class="form-group">
-			<span class=" col-md-9 col-xs-9"> <input type="text"
-				name="target_repo" id="target_repo_select" class="form-control"
-				placeholder="user/repo"></br>
-			</span> <span class="col-md-3 col-xs-3"> <input type="submit"
-				class="form-control btn" value="Watch this repo" />
-			</span>
-		</div>
-	</form>
-</div>
-
-
- -->
 
 <style>
     .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,.bootstrap-switch
@@ -290,7 +240,7 @@ $("[name='{{r.id}}']").bootstrapSwitch('state',{{r.previsual}});
 </span>
 
 
-<span id="slidertag"> </span>
+<!--<span id="slidertag"> </span>-->
 
 
 <script>
@@ -299,10 +249,6 @@ $("[name='{{r.id}}']").bootstrapSwitch('state',{{r.previsual}});
 var current_url;
 var m;
 $( document ).ready(function() {
-	
-	
-
-
 	
 	var opts = {
 		  lines: 13, // The number of lines to draw
@@ -404,12 +350,16 @@ $( document ).ready(function() {
 			}
 		    var o;
 		    var temp;
-		    var republish_class;
-		    var republish_text;
-		    var republish_control_class;
+		    var republish_img;
+            var ar2dtool_checked='';
+            var widoco_checked='';
+            var oops_checked='';
 		    bodypanel.html('<div class="col-md-3 col-xs-3" >Ontology</div><div class="col-md-2 col-xs-2" >Diagrams</div><div class="col-md-2 col-xs-2" >Evaluation</div><div class="col-md-2 col-xs-2" >Documentation</div><div class="col-md-2 col-xs-2" >Publish</div><div class="col-md-1 col-xs-1">Bundle</div></br><hr>');
+		    temp=bodypanel.html();
+		    temp += '<form action="/update_conf" method="POST">'
+		    //bodypanel.html(temp + '<form action="/update_conf" method="POST">');
 		    for(o=0;o<ontologies.length;o++){
-		    	temp=bodypanel.html();
+		    	//temp=bodypanel.html();
 		    	//alert(ontologies[o].published);
 		    	if(ontologies[o].published==true){
 		    		republish_img = '/media/icons/republish.png';
@@ -417,16 +367,37 @@ $( document ).ready(function() {
 		    	else{
 		    	    republish_img = '/media/icons/publish.png';
 		    	}
+		    	if(ontologies[o].ar2dtool==true){
+		    	    ar2dtool_checked = 'checked';
+		    	}
+		    	else{
+		    	    ar2dtool_checked = '';
+		    	}
+		    	if(ontologies[o].widoco==true){
+		    	    widoco_checked = 'checked';
+		    	}
+		    	else{
+		    	    widoco_checked = '';
+		    	}
+		    	if(ontologies[o].oops==true){
+		    	    oops_checked = 'checked';
+		    	}
+		    	else{
+		    	    oops_checked = '';
+		    	}
+
 		    	//newly added
-		    	bodypanel.html(temp+"<div class='ontology col-md-3 col-xs-3'>"+ontologies[o].ontology.substr(1)+"</div>"+
+		    	//bodypanel.html(temp+
+		    	temp = temp +
+		    	    "<div class='ontology col-md-3 col-xs-3'>"+ontologies[o].ontology.substr(1)+"</div>"+
                         '<div class="col-md-2 col-xs-2">'+
-		    			    '<input type="checkbox" class=" " name="'+ontologies[o].ontology+'-ar2dtool" checked>'+
+		    			    '<input type="checkbox" class=" " name="'+ontologies[o].ontology+'-ar2dtool" '+ar2dtool_checked+'>'+
 		    			'</div>'+
 		    			'<div class="col-md-2 col-xs-2">'+
-    		    			'<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-oops" checked>'+
+    		    			'<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-oops" '+oops_checked+'>'+
                         '</div>'+
                         '<div class="col-md-2 col-xs-2">'+
-    		    			'<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-widoco" checked>'+
+    		    			'<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-widoco" '+widoco_checked+'>'+
     		    		'</div>'+
 		    			'<div class="col-md-2 col-xs-2 ">'+
 		    			    '<button class="btn highl">'+
@@ -437,22 +408,26 @@ $( document ).ready(function() {
 		    				//'<span class="'+republish_control_class+'  btn '+republish_class+' col-md-12 col-xs-12" ontology="'+ontologies[o].ontology+
 		    				//	'" pname="'+ontologies[o].pname+
 		    				//	'" repo="'+current_url+'" >'+republish_text+'</span></div>'+
-		    			'<div class="col-md-1 col-xs-1"> <form action="/get_bundle" method="POST">'+
-		    				'<input type="hidden" name="repo" value="'+current_url+'"/>'+
-		    				'<input type="hidden" name="ontology" value="'+ontologies[o].ontology+'"/>'+
-		    				'<button type="submit" class="btn highl" value="Download" name="Download"><img src="/media/icons/bundle_download.png" height="20px"></button>'+
-		    				'</form> </div>'
-		    			+"<br><br>"
-		    			);
-		    }
-		    $("#slidertag").html(resp.sliderhtml);
-		    initsliders();		    
+		    				<!-- Commented the below for bundle because it contains a form and I wanted to test-->
+		    			<!--'<div class="col-md-1 col-xs-1"> <form action="/get_bundle" method="POST">'+-->
+		    				<!--'<input type="hidden" name="repo" value="'+current_url+'"/>'+-->
+		    				<!--'<input type="hidden" name="ontology" value="'+ontologies[o].ontology+'"/>'+-->
+		    				<!--'<button type="submit" class="btn highl" value="Download" name="Download"><img src="/media/icons/bundle_download.png" height="20px"></button>'+-->
+		    				<!--'</form> </div>'-->
+		    			"<br><br>"
+		    			//);
+		    }//end for
+		    //temp= bodypanel.html();
+            temp += '<input type="hidden" name="repo" value="'+current_url+'"/>';
+            temp += '<input type="hidden" name="csrfmiddlewaretoken" value="'+'{{csrf_token}}'+'"/>';
+		    temp += '<input type="submit" value="tooo">';
+		    console.log('now appending to the panel: '+temp)
+		    bodypanel.html(temp + '</form>');
+		    //$("#slidertag").html(resp.sliderhtml);
+		    //initsliders();
 		    $('#box').click();
 		});	 
 	});//repo selector
-	
-
-	
 
 	
 	$(".savebtn").click(function(){

@@ -794,9 +794,10 @@ def generate_bundle(base_dir, target_repo, ontology_bundle):
                                 os.makedirs(parent_folder)
                             except:
                                 pass
-                        with open(abs_path, 'w') as f:
+                        with open(abs_path, 'w') as fii:
                             file_content = repo.get_file_contents(f.path).decoded_content
-                            f.write(file_content)
+                            fii.write(file_content)
+                            print 'file %s content: %s' % (f.path, file_content[:10])
                     else:
                         print 'unknown type in generate bundle'
                 else:
@@ -808,7 +809,7 @@ def generate_bundle(base_dir, target_repo, ontology_bundle):
         print 'comm: %s' % comm
         call(comm, shell=True)
         return os.path.join(base_dir, zip_file)
-        #return None
+        # return None
     except Exception as e:
         print 'error in generate_bundle: '+str(e)
         return None

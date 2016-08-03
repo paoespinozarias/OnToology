@@ -509,8 +509,9 @@ def profile(request):
                     print '   '+d + ': ' + str(o[d])
             print 'testing redirect'
             print 'will return the Json'
-            html = render(request, 'profile_sliders.html', {'ontologies': ontologies}).content
-            jresponse = JsonResponse({'ontologies': ontologies, 'sliderhtml': html})
+            #html = render(request, 'profile_sliders.html', {'ontologies': ontologies}).content
+            #jresponse = JsonResponse({'ontologies': ontologies, 'sliderhtml': html})
+            jresponse = JsonResponse({'ontologies': ontologies})
             jresponse.__setitem__('Content-Length', len(jresponse.content))
             return jresponse
         except Exception as e:
