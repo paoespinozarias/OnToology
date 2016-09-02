@@ -156,7 +156,9 @@ def get_access_token(request):
         return HttpResponseRedirect('/')
     access_token = d['access_token']
     request.session['access_token'] = access_token
-    update_g(access_token)
+    # I need to verify this later (today is: 29-Aug-2016). it was causing problems as this token does not have
+    # permissions as it used before when I switched off to 3 apps instead of a single one in github
+    # update_g(access_token)
     print 'access_token: ' + access_token
 
     if request.user.is_authenticated() and request.session['access_token_time'] == '1':
@@ -430,7 +432,9 @@ def profilebeta(request):
             print 'try to get abs folder'
             if type(autoncore.g) == type(None):
                 print 'access token is: ' + request.session['access_token']
-                update_g(request.session['access_token'])
+                # I need to verify this later (today is: 29-Aug-2016). it was causing problems as this token does not have
+                # permissions as it used before when I switched off to 3 apps instead of a single one in github
+                # update_g(request.session['access_token'])
             ontologies = parse_online_repo_for_ontologies(repo)
             print 'ontologies: ' + str(len(ontologies))
             for o in ontologies:
@@ -491,7 +495,9 @@ def profile(request):
             print 'try to get abs folder'
             if type(autoncore.g) == type(None):
                 print 'access token is: ' + request.session['access_token']
-                update_g(request.session['access_token'])
+                # I need to verify this later (today is: 29-Aug-2016). it was causing problems as this token does not
+                # have permissions as it used before when I switched off to 3 apps instead of a single one in github
+                # update_g(request.session['access_token'])
             ontologies = parse_online_repo_for_ontologies(repo)
             print 'ontologies: ' + str(len(ontologies))
             arepo = Repo.objects.get(url=repo)
@@ -620,33 +626,65 @@ def update_conf(request):
     print 'inside update_conf'
     if request.method == "GET":
         return render(request, "msg.html", {"msg": "This method expects POST only"})
-    indic = '-ar2dtool'
+    ontologies = request.POST.getlist('ontology')
     data = request.POST
-    print 'will go to the loop'
-    for key in data:
+    for onto in ontologies:
         print 'inside the loop'
-        if indic in key:
-            print 'inside the if'
-            onto = key[:-len(indic)]
-            ar2dtool = data[onto + '-ar2dtool']
-            print 'ar2dtool: ' + str(ar2dtool)
-            widoco = data[onto + '-widoco']
-            print 'widoco: ' + str(widoco)
-            oops = data[onto + '-oops']
-            print 'oops: ' + str(oops)
-            print 'will call get_conf'
-            new_conf = get_conf(ar2dtool, widoco, oops)
-            print 'will call update_file'
-            onto = 'OnToology' + onto + '/OnToology.cfg'
-            try:
-                update_file(data['repo'], onto, 'OnToology Configuration', new_conf)
-            except Exception as e:
-                print 'Error in updating the configuration: ' + str(e)
-                return JsonResponse(
-                    {'status': False, 'error': str(e)})  # return render(request,'msg.html',{'msg': str(e)})
-            print 'returned from update_file'
+        ar2dtool = onto + '-ar2dtool' in data
+        print 'ar2dtool: ' + str(ar2dtool)
+        widoco = onto + '-widoco' in data
+        print 'widoco: ' + str(widoco)
+        oops = onto + '-oops' in data
+        print 'oops: ' + str(oops)
+        print 'will call get_conf'
+        new_conf = get_conf(ar2dtool, widoco, oops)
+        print 'will call update_file'
+        o = 'OnToology' + onto + '/OnToology.cfg'
+        try:
+            print "target_repo <%s> ,  path <%s> ,  message <%s> ,   content <%s>" % (data['repo'], o, 'OnToology Configuration', new_conf)
+            update_file(data['repo'], o, 'OnToology Configuration', new_conf)
+        except Exception as e:
+            print 'Error in updating the configuration: ' + str(e)
+            return render(request, 'msg.html', {'msg': str(e)})
+            # return JsonResponse(
+            #     {'status': False, 'error': str(e)})  # return render(request,'msg.html',{'msg': str(e)})
+        print 'returned from update_file'
     print 'will return msg html'
-    return JsonResponse({'status': True, 'msg': 'successfully'})
+    return HttpResponseRedirect('/profile')
+    # return JsonResponse({'status': True, 'msg': 'successfully'})
+
+
+# def update_conf(request):
+#     print 'inside update_conf'
+#     if request.method == "GET":
+#         return render(request, "msg.html", {"msg": "This method expects POST only"})
+#     indic = '-ar2dtool'
+#     data = request.POST
+#     print 'will go to the loop'
+#     for key in data:
+#         print 'inside the loop'
+#         if indic in key:
+#             print 'inside the if'
+#             onto = key[:-len(indic)]
+#             ar2dtool = data[onto + '-ar2dtool']
+#             print 'ar2dtool: ' + str(ar2dtool)
+#             widoco = data[onto + '-widoco']
+#             print 'widoco: ' + str(widoco)
+#             oops = data[onto + '-oops']
+#             print 'oops: ' + str(oops)
+#             print 'will call get_conf'
+#             new_conf = get_conf(ar2dtool, widoco, oops)
+#             print 'will call update_file'
+#             onto = 'OnToology' + onto + '/OnToology.cfg'
+#             try:
+#                 update_file(data['repo'], onto, 'OnToology Configuration', new_conf)
+#             except Exception as e:
+#                 print 'Error in updating the configuration: ' + str(e)
+#                 return JsonResponse(
+#                     {'status': False, 'error': str(e)})  # return render(request,'msg.html',{'msg': str(e)})
+#             print 'returned from update_file'
+#     print 'will return msg html'
+#     return JsonResponse({'status': True, 'msg': 'successfully'})
 
 
 def get_conf(ar2dtool, widoco, oops):

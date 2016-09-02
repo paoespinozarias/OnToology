@@ -109,7 +109,6 @@ function GetURLParameter(sParam)
                                     <div class="col-md-1 col-xs-1 ">
                                         <i class="indicator glyphicon glyphicon-chevron-down "></i>
                                     </div>
-
                                     <div class="col-md-4 col-xs-4 darktext" style="text-align: left">{{r.url}}
                                     </div>
                                     <div class="col-md-1 col-xs-1 " style="color: #000;" >
@@ -356,7 +355,7 @@ $( document ).ready(function() {
             var oops_checked='';
 		    bodypanel.html('<div class="col-md-3 col-xs-3" >Ontology</div><div class="col-md-2 col-xs-2" >Diagrams</div><div class="col-md-2 col-xs-2" >Evaluation</div><div class="col-md-2 col-xs-2" >Documentation</div><div class="col-md-2 col-xs-2" >Publish</div><div class="col-md-1 col-xs-1">Bundle</div></br><hr>');
 		    temp=bodypanel.html();
-		    temp += '<form action="/update_conf" method="POST">'
+		    temp += '<form action="/update_conf" method="POST">' + "{% csrf_token %}"
 		    //bodypanel.html(temp + '<form action="/update_conf" method="POST">');
 		    for(o=0;o<ontologies.length;o++){
 		    	//temp=bodypanel.html();
@@ -385,7 +384,7 @@ $( document ).ready(function() {
 		    	else{
 		    	    oops_checked = '';
 		    	}
-
+				temp += "<input type='hidden' name='ontology' value='"+ontologies[o].ontology+"'/>"
 		    	//newly added
 		    	//bodypanel.html(temp+
 		    	temp = temp +

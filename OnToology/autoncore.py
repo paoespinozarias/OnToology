@@ -20,7 +20,8 @@
 
 import sys
 import os
-from github import Github
+#from github import Github
+import github
 from datetime import datetime
 from subprocess import call
 import string
@@ -79,7 +80,7 @@ def init_g():
     global g
     username = os.environ['github_username']
     password = os.environ['github_password']
-    g = Github(username, password)
+    g = github.Github(username, password)
 
 
 def git_magic(target_repo, user, cloning_repo, changed_filesss):
@@ -96,7 +97,7 @@ def git_magic(target_repo, user, cloning_repo, changed_filesss):
     # so the tool user can takeover and do stuff
     username = os.environ['github_username']
     password = os.environ['github_password']
-    g = Github(username, password)
+    g = github.Github(username, password)
     local_repo = target_repo.replace(target_repo.split('/')[-2], ToolUser)
     if not settings.TEST or not settings.test_conf['local']:
         delete_repo(local_repo)
@@ -271,7 +272,7 @@ def git_magic1(target_repo, user, cloning_repo, changed_filesss):
     # so the tool user can takeover and do stuff
     username = os.environ['github_username']
     password = os.environ['github_password']
-    g = Github(username, password)
+    g = github.Github(username, password)
     local_repo = target_repo.replace(target_repo.split('/')[-2], ToolUser)
     if not settings.TEST or not settings.test_conf['local']:
         delete_repo(local_repo)
@@ -455,18 +456,35 @@ def update_file(target_repo, path, message, content):
     global g
     username = os.environ['github_username']
     password = os.environ['github_password']
-    if g is None:
-        g = Github(username, password)
-    gg = Github(username, password)
+    if True:
+    #if g is None:
+        print 'new g'
+        g = github.Github(username, password)
+    else:
+        print 'user is: '+str(g.get_user().name)
+    # gg = github.Github(username, password)
     repo = g.get_repo(target_repo)
-    dolog('will update the file <%s> on repo<%s> with the content <%s>' %
-          (path, target_repo, content))
-    try:
-        repo.update_content(path, message, content)
-    except:
-        dolog('second change of file update')
-        repo.update_content(path, message, content)
-    dolog('file updated')
+    # sha = repo.get_commits()[0].sha
+    sha = repo.get_file_contents(path).sha
+    apath = path
+    if apath[0] != "/":
+        apath = "/" + apath.strip()
+    print "username: "+username
+    dolog('will update the file <%s> on repo<%s> with the content <%s>,  sha <%s> and message <%s>' %
+          (apath, target_repo, content, sha, message))
+    print "repo.update_file('%s', '%s', \"\"\"%s\"\"\" , '%s' )" % (apath, message, content, sha)
+    for i in range(1):
+        try:
+            repo.update_file(apath, message, content, sha)
+            dolog('file updated')
+            return
+        except:
+            dolog('chance #%d file update' % i)
+            time.sleep(1)
+            # repo.update_content(path, message, content)
+    dolog('after 10 changes, still could not update ')
+    # so if there is a problem it will raise an exception which will be captured by the calling function
+    repo.update_file(apath, message, content, sha)
 
 
 def verify_tools_generation(ver_file_comp, repo=None):
@@ -750,7 +768,7 @@ def add_collaborator(target_repo, user, newg=None):
 
 def update_g(token):
     global g
-    g = Github(token)
+    g = github.Github(token)
 
 
 def generate_bundle(base_dir, target_repo, ontology_bundle):
