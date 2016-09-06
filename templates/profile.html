@@ -134,13 +134,7 @@ function GetURLParameter(sParam)
                                     {%if r.previsual_page_available %}
                                         <a href="http://{{r.user}}.github.io/{{r.rrepo}}" title="Go to previsualization"><img src="media/icons/go_to_previsual.png"
                                                                         height="20px"></a>
-
                                     {%endif%}
-
-
-
-
-
                                         </div>
 
                                     <div class="col-md-3 col-xs-3 darktext" align="center">
@@ -305,6 +299,7 @@ $( document ).ready(function() {
             var ar2dtool_checked='';
             var widoco_checked='';
             var oops_checked='';
+            var republish_control_class;
             if(ontologies.length>0){
 		    	//bodypanel.html('<div class="col-md-3 col-xs-3" >Ontology</div><div class="col-md-2 col-xs-2" >Diagrams</div><div class="col-md-2 col-xs-2" >Evaluation</div><div class="col-md-2 col-xs-2" >Documentation</div><div class="col-md-2 col-xs-2" >Publish</div><div class="col-md-1 col-xs-1">Bundle</div></br><hr>');
 		        bodypanel.html('<div class="col-md-10 col-xs-10">'+
@@ -324,11 +319,15 @@ $( document ).ready(function() {
 		    	//alert(ontologies[o].published);
 		    	if(ontologies[o].published==true){
 		    		republish_img = '/media/icons/republish.png';
+		    		republish_control_class = 'republish-class';
 		    		republish_title = "Republish this ontology"
-		    		w3id_text = "[ " + ontologies[o].pname + " :  " + "https://w3id.org/def/"+ontologies[o].pname + " ]"
+		    		w3id_text = "[ " + ontologies[o].pname + " :  " + "https://w3id.org/def/"+ontologies[o].pname +
+		    		" ]  "+
+		    		 '<a href="/profile?delete-name='+ontologies[o].pname+'"><span class="glyphicon glyphicon-remove"></span></a>'
 		    	}
 		    	else{
 		    	    republish_img = '/media/icons/publish.png';
+		    	    republish_control_class = 'publish-class';
 		    	    republish_title = "Publish this ontology"
 		    	    w3id_text = ""
 		    	}
@@ -387,15 +386,14 @@ $( document ).ready(function() {
                         '</div>'+
 
 		    			'<div class="col-md-1 col-xs-1">'+
-		    			    '<button class="btn btn-default" title="'+republish_title+'">'+
+		    			    '<span class="btn btn-default '+republish_control_class+'" '+
+		    			    'pname="'+ontologies[o].pname+'" repo="'+current_url+'" '+
+		    			    'ontology="'+ontologies[o].ontology+'"'+
+		    			    ' title="'+republish_title+'">'+
 		    				'<img src="'+republish_img+'" height="20px" ontology="'+ontologies[o].ontology+
 		    					'" pname="'+ontologies[o].pname+
-		    					'" repo="'+current_url+'" > </button></div>'+
+		    					'" repo="'+current_url+'" > </span></div>'+
 		    				'<div class="col-md-1 col-xs-1"><span title="Download documentation, diagrams, evaluation and .htaccess" class="bundle-btn btn btn-default" repo="'+current_url+'" ontology="'+ontologies[o].ontology+'"><img src="/media/icons/bundle_download.png" height="20px"/></span></div>'+
-                        //testing div
-                        //'<div class="col-md-12 col-xs-12">testing</div>'
-                        //'<div class="col-md-6 col-xs-6 "><div class="col-md-12 col-xs-12 col-md-offset-1 col-xs-offset-1 ">'+ontologies[o].pname+'</div></div>'+
-		    			//'</div>' //+ //for row
 		    			"<br><br>"
 		    			//);
 		    }//end for
@@ -499,35 +497,15 @@ $( document ).ready(function() {
             <td><a href="/publish/{{p.name}}">{{p.name}}</a></td>
             <td>{{p.repo.url}}</td>
             <td>{{p.ontology}}</td>
-            <td><a href="https://w3id.org/def/{{p.name}}">https://w3id.org/def/{{p.name}}</a><a
-                    href="/profile?delete-name={{p.name}}"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+            <td><a href="https://w3id.org/def/{{p.name}}">https://w3id.org/def/{{p.name}}</a>
+                <a href="/profile?delete-name={{p.name}}"><span class="glyphicon glyphicon-remove pull-right"></span></a>
             </td>
         </tr>
         {%endfor%}
     </table>
 </div>
 
-<!--<form action="" method="GET" style="color: #999">-->
-<!--<div class="form-group" >-->
-<!--<div class="container-fluid">-->
-<!--<span class=" col-md-9 col-xs-9">-->
-<!--<select id="repo-select" class="form-control" name="repo">-->
-<!--{%for r in repos%}-->
-<!--<option>{{r.url}}</option>-->
-<!--{%endfor%}-->
-<!--</select>-->
-<!--<select id="ontology-select" class="form-control" name="ontology">-->
-<!--</select>-->
-<!--<input type="text" name="name" class="form-control" placeholder="Enter the name you would like to reserve" >-->
-<!--</br>-->
-<!--</span>-->
-<!--<span class="col-md-3 col-xs-3">-->
-<!--<a class="btn form-control" id="get-ontologies-btn" >Get Ontologies</a><br>-->
-<!--<input type="submit" class="form-control btn" value="Reserve"/>-->
-<!--</span>-->
-<!--</div>-->
-<!--</div>-->
-<!--</form>-->
+
 <p class="red">{{error}}</p>
 
 <div id="progressbox" style="opacity:0.8;
