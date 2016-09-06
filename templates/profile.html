@@ -82,7 +82,7 @@ function GetURLParameter(sParam)
                placeholder="user/repo"></br>
 	</span>
 	<span class="col-md-3 col-xs-3">
-		<input type="submit" class="form-control color1back color3 input-lg" value="Watch this repo"/>
+		<input type="submit" class="form-control input-lg btn color7back color8 " value="Watch this repo"/>
 	</span>
         </div>
 
@@ -111,7 +111,7 @@ function GetURLParameter(sParam)
                                     <div class="col-md-1 col-xs-1 ">
                                         <i class="indicator glyphicon glyphicon-chevron-down "></i>
                                     </div>
-                                    <div class="col-md-4 col-xs-4 darktext" style="text-align: left"><a href="http://www.github.com/{{r.url}}">{{r.url}}</a>
+                                    <div class="col-md-4 col-xs-4 darktext" style="text-align: left"><a href="http://www.github.com/{{r.url}}" target="_blank">{{r.url}}</a>
                                     </div>
                                     <div class="col-md-1 col-xs-1 " style="color: #000;" >
                                         <span class="glyphicon glyphicon-refresh  repo" url="{{r.url}}" title="Get ontologies configuration in this repo"></span>
@@ -306,7 +306,15 @@ $( document ).ready(function() {
             var widoco_checked='';
             var oops_checked='';
             if(ontologies.length>0){
-		    	bodypanel.html('<div class="col-md-3 col-xs-3" >Ontology</div><div class="col-md-2 col-xs-2" >Diagrams</div><div class="col-md-2 col-xs-2" >Evaluation</div><div class="col-md-2 col-xs-2" >Documentation</div><div class="col-md-2 col-xs-2" >Publish</div><div class="col-md-1 col-xs-1">Bundle</div></br><hr>');
+		    	//bodypanel.html('<div class="col-md-3 col-xs-3" >Ontology</div><div class="col-md-2 col-xs-2" >Diagrams</div><div class="col-md-2 col-xs-2" >Evaluation</div><div class="col-md-2 col-xs-2" >Documentation</div><div class="col-md-2 col-xs-2" >Publish</div><div class="col-md-1 col-xs-1">Bundle</div></br><hr>');
+		        bodypanel.html('<div class="col-md-10 col-xs-10">'+
+		                '<div class="col-md-6 col-xs-6">Ontology</div>' +
+		                '<div class="col-md-2 col-xs-2" >Diagrams</div>'+
+		                '<div class="col-md-2 col-xs-2" >Evaluation</div>'+
+		                '<div class="col-md-2 col-xs-2" >Documentation</div>'+
+		                '</div>'+
+		                '<div class="col-md-1 col-xs-1" >Publish</div>'+
+		                '<div class="col-md-1 col-xs-1">Bundle</div></br><hr>');
 		    }
 		    temp=bodypanel.html();
 		    temp += '<form action="/update_conf" method="POST">' + "{% csrf_token %}"
@@ -316,9 +324,13 @@ $( document ).ready(function() {
 		    	//alert(ontologies[o].published);
 		    	if(ontologies[o].published==true){
 		    		republish_img = '/media/icons/republish.png';
+		    		republish_title = "Republish this ontology"
+		    		w3id_text = "[ " + ontologies[o].pname + " :  " + "https://w3id.org/def/"+ontologies[o].pname + " ]"
 		    	}
 		    	else{
 		    	    republish_img = '/media/icons/publish.png';
+		    	    republish_title = "Publish this ontology"
+		    	    w3id_text = ""
 		    	}
 		    	if(ontologies[o].ar2dtool==true){
 		    	    ar2dtool_checked = 'checked';
@@ -339,10 +351,9 @@ $( document ).ready(function() {
 		    	    oops_checked = '';
 		    	}
 				temp += "<input type='hidden' name='ontology' value='"+ontologies[o].ontology+"'/>"
-		    	//newly added
-		    	//bodypanel.html(temp+
+		    	//temp += '<div class="row">'
 		    	temp = temp +
-		    	    "<div class='ontology col-md-3 col-xs-3'><a href='https://github.com/"+current_url+"/blob/master"+ontologies[o].ontology+"'>"+ontologies[o].ontology.substr(1)+"</a></div>"+
+		    	    /*"<div class='ontology col-md-3 col-xs-3'><a href='https://github.com/"+current_url+"/blob/master"+ontologies[o].ontology+"'>"+ontologies[o].ontology.substr(1)+"</a>"+"</div>"+
                         '<div class="col-md-2 col-xs-2">'+
 		    			    '<input type="checkbox" class=" " name="'+ontologies[o].ontology+'-ar2dtool" '+ar2dtool_checked+'>'+
 		    			'</div>'+
@@ -352,22 +363,39 @@ $( document ).ready(function() {
                         '<div class="col-md-2 col-xs-2">'+
     		    			'<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-widoco" '+widoco_checked+'>'+
     		    		'</div>'+
-		    			'<div class="col-md-2 col-xs-2 ">'+
-		    			    '<button class="btn btn-default">'+
+    		    		*/
+
+                        '<div class="col-md-10 col-xs-10">'+
+                                '<div class="col-md-6 col-xs-6">'+
+                                    "<a href='https://github.com/"+current_url+"/blob/master"+ontologies[o].ontology+"'>"+
+                                    ontologies[o].ontology.substr(1)+"</a>"+
+                                '</div>'+
+                                '<div class="col-md-2 col-xs-2 ">'+
+                                    '<input type="checkbox" class=" " name="'+ontologies[o].ontology+'-ar2dtool" '+ar2dtool_checked+'>'+
+                                '</div>'+
+                                '<div class="col-md-2 col-xs-2">'+
+                                        '<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-oops" '+oops_checked+'>'+
+                                '</div>'+
+                                '<div class="col-md-2 col-xs-2">'+
+                                        '<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-widoco" '+widoco_checked+'>'+
+                                '</div>'+
+                                '<div class="col-md-12 col-xs-12 ">'+
+                                    '<div class="col-md-6 col-xs-6" style="color: #C0C0C0 !important;">'+
+                                        w3id_text +
+                                    '</div>'+
+                                '</div>'+
+                        '</div>'+
+
+		    			'<div class="col-md-1 col-xs-1">'+
+		    			    '<button class="btn btn-default" title="'+republish_title+'">'+
 		    				'<img src="'+republish_img+'" height="20px" ontology="'+ontologies[o].ontology+
 		    					'" pname="'+ontologies[o].pname+
 		    					'" repo="'+current_url+'" > </button></div>'+
-
-		    				//'<span class="'+republish_control_class+'  btn '+republish_class+' col-md-12 col-xs-12" ontology="'+ontologies[o].ontology+
-		    				//	'" pname="'+ontologies[o].pname+
-		    				//	'" repo="'+current_url+'" >'+republish_text+'</span></div>'+
-		    				'<div class="col-md-1 col-xs-1"><span class="bundle-btn btn btn-default" repo="'+current_url+'" ontology="'+ontologies[o].ontology+'"><img src="/media/icons/bundle_download.png" height="20px"/></span></div>'+
-		    				<!-- Commented the below for bundle because it contains a form-->
-		    			<!--'<div class="col-md-1 col-xs-1"> <form action="/get_bundle" method="POST">'+-->
-		    				<!--'<input type="hidden" name="repo" value="'+current_url+'"/>'+-->
-		    				<!--'<input type="hidden" name="ontology" value="'+ontologies[o].ontology+'"/>'+-->
-		    				<!--'<button type="submit" class="btn highl" value="Download" name="Download"><img src="/media/icons/bundle_download.png" height="20px"></button>'+-->
-		    				<!--'</form> </div>'-->
+		    				'<div class="col-md-1 col-xs-1"><span title="Download documentation, diagrams, evaluation and .htaccess" class="bundle-btn btn btn-default" repo="'+current_url+'" ontology="'+ontologies[o].ontology+'"><img src="/media/icons/bundle_download.png" height="20px"/></span></div>'+
+                        //testing div
+                        //'<div class="col-md-12 col-xs-12">testing</div>'
+                        //'<div class="col-md-6 col-xs-6 "><div class="col-md-12 col-xs-12 col-md-offset-1 col-xs-offset-1 ">'+ontologies[o].pname+'</div></div>'+
+		    			//'</div>' //+ //for row
 		    			"<br><br>"
 		    			//);
 		    }//end for
@@ -375,9 +403,30 @@ $( document ).ready(function() {
 		    if(ontologies.length>0){
             	temp += '<input type="hidden" name="repo" value="'+current_url+'"/>';
             	temp += '<input type="hidden" name="csrfmiddlewaretoken" value="'+'{{csrf_token}}'+'"/>';
-		    	temp += '<input type="submit" class="btn color4back color3 col-md-9 col-xs-9" value="Update Configuration">';
-		    	temp += '<a class="closee btn btn-danger col-md-3 col-xs-3 " url="'+current_url+'" >Stop Watching</a>';
+
+
+
+                //temp += '<div class="col-md-9 col-xs-9">'
+
+		    	temp += '<input type="submit" class="btn color7back color0 col-md-10 col-xs-10" value="Update Configuration">';
+
+                //temp += '</div>'
+
+                temp += '<div class="col-md-2 col-xs-2 ">'
+
+		    	temp += '<a class="closee btn color0 red1back col-md-12 col-xs-12" url="'+current_url+'" >Stop Watching</a>';
+
+		    	temp += '</div>'
+
+
 		    	console.log(current_url)
+
+
+
+
+
+
+
 		    }
 		    else{
 			    temp += '<a class="closee btn btn-danger col-md-12 col-xs-12 " url="'+current_url+'" >Stop Watching</a>';

@@ -491,7 +491,7 @@ def profile(request):
                     hackatt = False
                     break
             if hackatt:  # trying to access a repo that does not belong to the use currently logged in
-                return render(request, 'msg.html', {'msg': 'This repo is not added, please do so in the main page'})
+                return render(request, 'msg.html', {'msg': 'This repo is not added, please add it'})
             print 'try to get abs folder'
             if type(autoncore.g) == type(None):
                 print 'access token is: ' + request.session['access_token']
@@ -503,7 +503,7 @@ def profile(request):
             arepo = Repo.objects.get(url=repo)
             pnames = PublishName.objects.filter(user=user, repo=arepo)
             for o in ontologies:
-                print '--------\n%s\n' % o
+                # print '--------\n%s\n' % o
                 o['published'] = False
                 o['pname'] = ''
                 for pn in pnames:
@@ -511,8 +511,8 @@ def profile(request):
                         o['published'] = True
                         o['pname'] = pn.name
                         break
-                for d in o:
-                    print '   '+d + ': ' + str(o[d])
+                #for d in o:
+                #    print '   '+d + ': ' + str(o[d])
             print 'testing redirect'
             print 'will return the Json'
             #html = render(request, 'profile_sliders.html', {'ontologies': ontologies}).content
