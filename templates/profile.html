@@ -288,13 +288,15 @@ $( document ).ready(function() {
 		//alert();
 		cc = true;
 	});
-	$(".closee").click(function() {
+	$(document).on('click', '.closee', function(){
+	//$(".closee").click(function() {
 		//alert("close");
 		//cc = true;
 		if (confirm("Are you sure you want to unwatch this repo?")==false){
 			return
 		}
 		greyout();
+		console.log("this attr url: "+$(this).attr('url'));
 		$.ajax({
 			  method: "GET",
 			  url: "/delete_repo?repo="+$(this).attr('url'),
@@ -353,7 +355,9 @@ $( document ).ready(function() {
             var ar2dtool_checked='';
             var widoco_checked='';
             var oops_checked='';
-		    bodypanel.html('<div class="col-md-3 col-xs-3" >Ontology</div><div class="col-md-2 col-xs-2" >Diagrams</div><div class="col-md-2 col-xs-2" >Evaluation</div><div class="col-md-2 col-xs-2" >Documentation</div><div class="col-md-2 col-xs-2" >Publish</div><div class="col-md-1 col-xs-1">Bundle</div></br><hr>');
+            if(ontologies.length>0){
+		    	bodypanel.html('<div class="col-md-3 col-xs-3" >Ontology</div><div class="col-md-2 col-xs-2" >Diagrams</div><div class="col-md-2 col-xs-2" >Evaluation</div><div class="col-md-2 col-xs-2" >Documentation</div><div class="col-md-2 col-xs-2" >Publish</div><div class="col-md-1 col-xs-1">Bundle</div></br><hr>');
+		    }
 		    temp=bodypanel.html();
 		    temp += '<form action="/update_conf" method="POST">' + "{% csrf_token %}"
 		    //bodypanel.html(temp + '<form action="/update_conf" method="POST">');
@@ -417,9 +421,17 @@ $( document ).ready(function() {
 		    			//);
 		    }//end for
 		    //temp= bodypanel.html();
-            temp += '<input type="hidden" name="repo" value="'+current_url+'"/>';
-            temp += '<input type="hidden" name="csrfmiddlewaretoken" value="'+'{{csrf_token}}'+'"/>';
-		    temp += '<input type="submit" value="tooo">';
+		    if(ontologies.length>0){
+            	temp += '<input type="hidden" name="repo" value="'+current_url+'"/>';
+            	temp += '<input type="hidden" name="csrfmiddlewaretoken" value="'+'{{csrf_token}}'+'"/>';
+		    	temp += '<input type="submit" class="btn color4back color3 col-md-9 col-xs-9" value="Update Configuration">';
+		    	temp += '<a class="closee btn btn-danger col-md-3 col-xs-3 " url="'+current_url+'" >Stop Watching</a>';
+		    	console.log(current_url)
+		    }
+		    else{
+			    temp += '<a class="closee btn btn-danger col-md-12 col-xs-12 " url="'+current_url+'" >Stop Watching</a>';
+			    console.log(current_url)
+		    }
 		    console.log('now appending to the panel: '+temp)
 		    bodypanel.html(temp + '</form>');
 		    //$("#slidertag").html(resp.sliderhtml);
@@ -626,9 +638,10 @@ function toggleChevron(e) {
         .find("i.indicator")
         .toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
 }
-$('#accordion').on('hidden.bs.collapse', toggleChevron);
-$('#accordion').on('shown.bs.collapse', toggleChevron);
-
+//$('#accordion').on('hidden.bs.collapse', toggleChevron);
+//$('#accordion').on('shown.bs.collapse', toggleChevron);
+$('#accordion').on('hide.bs.collapse', toggleChevron);
+$('#accordion').on('show.bs.collapse', toggleChevron);
 
 
 </script>

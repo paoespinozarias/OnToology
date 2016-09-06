@@ -690,8 +690,11 @@ def refresh_repo(target_repo):
 def remove_old_pull_requests(target_repo):
     title = 'OnToology update'
     for p in g.get_repo(target_repo).get_pulls():
-        if p.title == title:
-            p.edit(state="closed")
+        try:
+            if p.title == title:
+                p.edit(state="closed")
+        except Exception as e:
+            dolog("Exception removing an old pull request: "+str(e))
 
 
 def send_pull_request(target_repo, username):
@@ -732,7 +735,10 @@ def get_user_github_email(username):
 
 def remove_webhook(target_repo, notification_url):
     global g
+    print "target_repo: "+str(target_repo)
+    print "notification url: "+str(notification_url)
     for hook in g.get_repo(target_repo).get_hooks():
+        print "hook.config: "+str(hook.config)
         if hook.config["url"] == notification_url:
             hook.delete()
 

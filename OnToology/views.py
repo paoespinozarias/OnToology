@@ -704,16 +704,23 @@ enable = %s
 @login_required
 def delete_repo(request):
     repo = request.GET['repo']
+    print request.GET
+    print "repo: "+str(repo)
     user = OUser.objects.get(email=request.user.email)
     for r in user.repos:
+        print 'r.url: <%s> and user.repo <%s>' % (r.url, repo)
         if r.url == repo:
             try:
                 user.update(pull__repos=r)
+                print "repo is puller"
                 user.save()
+                print "user is saved"
                 remove_webhook(repo, host + "/add_hook")
+                print "webhook is removed"
                 return JsonResponse({'status': True})
             except Exception as e:
                 return JsonResponse({'status': False, 'error': str(e)})
+    print "no matching repo is found"
     return JsonResponse({'status': False, 'error': 'You should add this repo first'})
 
 
