@@ -97,10 +97,12 @@ function GetURLParameter(sParam)
         <div class="container-fluid">
             {%for r in repos%}
             {%if r.notes != ''%}
-            <div class="panel  panel-danger ">
-                {%else%}
-                <div class="panel color5back">
-                    {%endif%}
+                <div class="panel panel-info">
+                <!--<div class="panel  panel-danger ">-->
+            {%else%}
+                <!--<div class="panel color5back">-->
+                <div class="panel panel-info">
+            {%endif%}
                     <div class="panel-heading  " >
                         <h4 class="panel-title">
                             <a data-toggle="collapse" class="accordion-toggle" data-parent="#accordion"
@@ -403,7 +405,7 @@ $( document ).ready(function() {
     		    			'<input type="checkbox" class=" col-md-2 col-xs-2" name="'+ontologies[o].ontology+'-widoco" '+widoco_checked+'>'+
     		    		'</div>'+
 		    			'<div class="col-md-2 col-xs-2 ">'+
-		    			    '<button class="btn highl">'+
+		    			    '<button class="btn btn-default">'+
 		    				'<img src="'+republish_img+'" height="20px" ontology="'+ontologies[o].ontology+
 		    					'" pname="'+ontologies[o].pname+
 		    					'" repo="'+current_url+'" > </button></div>'+
@@ -411,7 +413,8 @@ $( document ).ready(function() {
 		    				//'<span class="'+republish_control_class+'  btn '+republish_class+' col-md-12 col-xs-12" ontology="'+ontologies[o].ontology+
 		    				//	'" pname="'+ontologies[o].pname+
 		    				//	'" repo="'+current_url+'" >'+republish_text+'</span></div>'+
-		    				<!-- Commented the below for bundle because it contains a form and I wanted to test-->
+		    				'<div class="col-md-1 col-xs-1"><span class="bundle-btn btn btn-default" repo="'+current_url+'" ontology="'+ontologies[o].ontology+'"><img src="/media/icons/bundle_download.png" height="20px"/></span></div>'+
+		    				<!-- Commented the below for bundle because it contains a form-->
 		    			<!--'<div class="col-md-1 col-xs-1"> <form action="/get_bundle" method="POST">'+-->
 		    				<!--'<input type="hidden" name="repo" value="'+current_url+'"/>'+-->
 		    				<!--'<input type="hidden" name="ontology" value="'+ontologies[o].ontology+'"/>'+-->
@@ -627,6 +630,13 @@ $( document ).ready(function() {
         $("#publish-name-form").submit();
         //$("#publish-modal-add").modal();
     });
+
+    $(document).on('click', '.bundle-btn', function(){
+        alert($(this).attr('repo') + " - " +$(this).attr('ontology'));
+        $.post("get_bundle", {"repo": $(this).attr('repo'), "ontology": $(this).attr('ontology'), csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value });
+    });
+
+
 
 
 
