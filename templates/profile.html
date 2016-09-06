@@ -120,15 +120,6 @@ function GetURLParameter(sParam)
                                         <span class="generateall-btn" repo="{{r.url}}" title="Generate documentation, diagrams and evaluation">
                                             <img src="media/icons/regenerate_all.png" height="20px">
                                         </span>
-										<!--<form id="generateall{{r.url}}" action="generateforall">-->
-											<!--<input type="hidden" name="repo" value={{r.url}}/>-->
-										<!--</form>-->
-										<!--<a class=""-->
-										   <!--onclick="document.getElementById('generateall{{r.url}}').submit()"-->
-										   <!--data-toggle="tooltip" data-placement="top"-->
-										   <!--title="Generate documentation, diagrams and evaluation">-->
-											<!--<img src="media/icons/regenerate_all.png" height="20px">-->
-										<!--</a>-->
 									</div>
                                     {%if r.previsual_page_available %}
                                         <div class="col-md-1 col-xs-1"> <a href="/renew_previsual?target_repo={{r.url}}" title="Renew previsualization">
@@ -151,50 +142,11 @@ function GetURLParameter(sParam)
 
 
                                         </div>
-                                    <!--<div class="col-md-4 col-xs-4 darktext">{{r.state}}</div>-->
-                                    <!--
-                                    <div class="col-md-4 col-xs-4 darktext">{{r.notes}}</div>
-                                    -->
+
                                     <div class="col-md-3 col-xs-3 darktext" align="center">
                                         {{r.last_used| date:"d-M-YH:i"}}
                                     </div>
-
-
-                                    <!--<div class="col-md-1 col-xs-1 nonrepo">-->
-                                    <!--<a class="dropdown-toggle darktext" data-toggle="dropdown"-->
-                                    <!--href="#" role="button" aria-haspopup="true"-->
-                                    <!--aria-expanded="false"> more<span class="caret"></span></a>-->
-                                    <!--<ul class="dropdown-menu">-->
-                                    <!--{%if r.notes != ''%}-->
-                                    <!--<li><a onclick="show_error('{{r.notes}}')">show error</a></li>-->
-                                    <!--{%endif%}-->
-                                    <!--<li><a url="{{r.url}}" class="closee">Unwatch</a></li>-->
-                                    <!--<li><a href="/renew_previsual?target_repo={{r.url}}">renew previsual</a>-->
-                                    <!--</li>-->
-                                    <!--{%if r.previsual_page_available %}-->
-                                    <!--<li><a href="http://{{r.user}}.github.io/{{r.rrepo}}">go to previsual</a>-->
-                                    <!--</li>-->
-                                    <!--{%endif%}-->
-                                    <!--<li>-->
-                                    <!--<form id="generateall{{r.url}}" action="generateforall">-->
-                                    <!--<input type="hidden" name="repo" value={{r.url}}/>-->
-                                    <!--</form>-->
-                                    <!--<a class=""-->
-                                    <!--onclick="document.getElementById('generateall{{r.url}}').submit()">Generate-->
-                                    <!--documentation, diagrams and evaluation</a>-->
-                                    <!--</li>-->
-                                    <!--&lt;!&ndash; maybe we will added it later-->
-                                    <!--{%if r.previsual%}-->
-                                    <!--<li><a href="/previsual_toggle?target_repo={{r.url}}">Disable previsual</a></li>-->
-                                    <!--{%else%}-->
-                                    <!--<li><a href="/previsual_toggle?target_repo={{r.url}}">Enable previsual</a></li>-->
-                                    <!--{%endif%}-->
-                                    <!--&ndash;&gt;-->
-                                    <!--</ul>-->
-                                    <!--</div>-->
-                                    <!--
-                                            <div class="col-md-1 col-xs-1 glyphicon glyphicon-remove-circle close" url="{{r.url}}"></div>
-                                        --> </br>
+                                    </br>
                                 </div>
                                 <!-- end of row-->
 
@@ -205,34 +157,19 @@ function GetURLParameter(sParam)
                         <div class="panel-body ">
 
                             <div class="ontologiesspace"> </div>
-                            <!--
-                            <div class="ontologiesspace">Make sure you merge the pull request with the generated files or click on regenerate all to generate them</div>
-                            -->
                             </br>
-                            <!--<form id="toolsform" action="" method="POST">-->
-                                <!--<input type="submit" value="Save" text="Save" name="Save"-->
-                                       <!--class="form-control btn btn-default savebtn"/>-->
-                            <!--</form>-->
                         </div>
                     </div>
                 </div>
                 {%endfor%}
             </div>
         </div>
-
+    </div>
 
 
 </span>
 
-<!--<script> -->
-<!--//This script is for previsual checkboxes-->
-<!--var False=false;-->
-<!--var True=true;-->
-<!--{%for r in repos%}-->
-<!--$("[name='{{r.id}}']").bootstrapSwitch();-->
-<!--$("[name='{{r.id}}']").bootstrapSwitch('state',{{r.previsual}}); -->
-<!--{%endfor%}-->
-<!--</script>-->
+
 
 
 </br>
@@ -335,7 +272,9 @@ $( document ).ready(function() {
 		}		
 		var targetpanel = $(this);
 		//var bodypanel = $(this).parent().find(".ontologiesspace");
-		var bodypanel = $(this).parent().parent().parent().parent().parent().parent().find(".ontologiesspace");
+		//var bodypanel = $(this).parent().parent().parent().parent().parent().parent().find(".ontologiesspace");
+		var bodypanel = $(this).parent().parent().parent().parent().parent().find(".ontologiesspace");
+
 		current_url = $(this).attr('url');
 		//greyout();
 		$.ajax({
@@ -495,29 +434,29 @@ $( document ).ready(function() {
 </script>
 
 <br>
-
-<table class="table">
-    <tr>
-        <!--
-        <th align="center" style="text-align: center;">Reserved Names</th>
-        -->
-        <th>Reserved Names</th>
-        <th>Repository</th>
-        <th>Ontology</th>
-        <th>w3id URL</th>
-    </tr>
-    {%for p in pnames%}
-    <tr>
-        <td><a href="/publish/{{p.name}}">{{p.name}}</a></td>
-        <td>{{p.repo.url}}</td>
-        <td>{{p.ontology}}</td>
-        <td><a href="https://w3id.org/def/{{p.name}}">https://w3id.org/def/{{p.name}}</a><a
-                href="/profile?delete-name={{p.name}}"><span class="glyphicon glyphicon-remove pull-right"></span></a>
-        </td>
-    </tr>
-    {%endfor%}
-</table>
-
+<div class="col-md-offset-1 col-md-10">
+    <table class="table">
+        <tr>
+            <!--
+            <th align="center" style="text-align: center;">Reserved Names</th>
+            -->
+            <th>Reserved Names</th>
+            <th>Repository</th>
+            <th>Ontology</th>
+            <th>w3id URL</th>
+        </tr>
+        {%for p in pnames%}
+        <tr>
+            <td><a href="/publish/{{p.name}}">{{p.name}}</a></td>
+            <td>{{p.repo.url}}</td>
+            <td>{{p.ontology}}</td>
+            <td><a href="https://w3id.org/def/{{p.name}}">https://w3id.org/def/{{p.name}}</a><a
+                    href="/profile?delete-name={{p.name}}"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+            </td>
+        </tr>
+        {%endfor%}
+    </table>
+</div>
 
 <!--<form action="" method="GET" style="color: #999">-->
 <!--<div class="form-group" >-->
