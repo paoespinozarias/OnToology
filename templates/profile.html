@@ -117,6 +117,9 @@ function GetURLParameter(sParam)
                                         <span class="glyphicon glyphicon-refresh  repo" url="{{r.url}}" title="Get ontologies configuration in this repo"></span>
                                     </div>
 									<div class="col-md-1 col-xs-1">
+                                        <span class="generateall-btn" repo="{{r.url}}" title="Generate documentation, diagrams and evaluation">
+                                            <img src="media/icons/regenerate_all.png" height="20px">
+                                        </span>
 										<!--<form id="generateall{{r.url}}" action="generateforall">-->
 											<!--<input type="hidden" name="repo" value={{r.url}}/>-->
 										<!--</form>-->
@@ -127,9 +130,15 @@ function GetURLParameter(sParam)
 											<!--<img src="media/icons/regenerate_all.png" height="20px">-->
 										<!--</a>-->
 									</div>
-                                    <div class="col-md-1 col-xs-1"> <a href="/renew_previsual?target_repo={{r.url}}" title="renew previsualization">
-                                        <img src="media/icons/renew_previsual.png" height="20px"> </a>
-                                    </div>
+                                    {%if r.previsual_page_available %}
+                                        <div class="col-md-1 col-xs-1"> <a href="/renew_previsual?target_repo={{r.url}}" title="Renew previsualization">
+                                            <img src="media/icons/renew_previsual.png" height="20px"> </a>
+                                        </div>
+                                    {%else%}
+                                        <div class="col-md-1 col-xs-1"> <a href="/renew_previsual?target_repo={{r.url}}" title="Generate previsualization">
+                                            <img src="media/icons/renew_previsual.png" height="20px"> </a>
+                                        </div>
+                                    {%endif%}
                                     <div class="col-md-1 col-xs-1">
                                     {%if r.previsual_page_available %}
                                         <a href="http://{{r.user}}.github.io/{{r.rrepo}}" title="Go to previsualization"><img src="media/icons/go_to_previsual.png"
@@ -632,9 +641,14 @@ $( document ).ready(function() {
     });
 
     $(document).on('click', '.bundle-btn', function(){
-        alert($(this).attr('repo') + " - " +$(this).attr('ontology'));
         $.post("get_bundle", {"repo": $(this).attr('repo'), "ontology": $(this).attr('ontology'), csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value });
     });
+
+    $(document).on('click', '.generateall-btn', function(){
+        alert($(this).attr('repo'));
+        $.get("generateforall", {"repo": $(this).attr('repo'), csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value });
+    });
+
 
 
 
