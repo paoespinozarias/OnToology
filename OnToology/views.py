@@ -65,6 +65,8 @@ client_id = None
 client_secret = None
 is_private = None
 
+publish_dir = os.environ['publish_dir']
+
 
 def get_repos_formatted(the_repos):
     return the_repos
@@ -266,7 +268,9 @@ def add_hook(request):
     tar = cloning_repo.split('/')[-2]
     cloning_repo = cloning_repo.replace(tar, ToolUser)
     cloning_repo = cloning_repo.replace('git://github.com/', 'git@github.com:')
-    comm = "python /home/ubuntu/OnToology/OnToology/autoncore.py "
+    # comm = "python /home/ubuntu/OnToology/OnToology/autoncore.py "
+    comm = "python %s " % \
+           str((os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py')))
     comm += ' "' + target_repo + '" "' + user + '" "' + cloning_repo + '" '
     for c in changed_files:
         comm += '"' + c + '" '
@@ -569,10 +573,13 @@ def profile(request):
                             else:
                                 f.write(line+'\n')
                         f.close()
-                        comm = 'rm -Rf /home/ubuntu/publish/%s' % name
+                        os.path.join(publish_dir, name)
+                        comm = 'rm -Rf ' + os.path.join(publish_dir, name)
+                        # comm = 'rm -Rf /home/ubuntu/publish/%s' % name
                         print(comm)
                         call(comm, shell=True)
-                        comm = 'mv %s /home/ubuntu/publish/%s' % (doc_dir, name)
+                        # comm = 'mv %s /home/ubuntu/publish/%s' % (doc_dir, name)
+                        comm = 'mv %s %s' % (doc_dir,  os.path.join(publish_dir, name))
                         print comm
                         call(comm, shell=True)
                         if len(PublishName.objects.filter(name=name)) == 0:
@@ -598,7 +605,8 @@ def profile(request):
             pp = p[0]
             pp.delete()
             pp.save()
-            comm = 'rm -Rf /home/ubuntu/publish/%s' % name
+            # comm = 'rm -Rf /home/ubuntu/publish/%s' % name
+            comm = 'rm -Rf ' + os.path.join(publish_dir, name)
             call(comm, shell=True)
         else:
             error_msg += 'You are trying to delete a name that does not belong to you'
