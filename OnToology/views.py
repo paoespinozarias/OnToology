@@ -151,6 +151,7 @@ def get_access_token(request):
     res = requests.post('https://github.com/login/oauth/access_token', data=data)
     atts = res.text.split('&')
     d = {}
+    print "in get access token - atts: "+str(atts)
     for att in atts:
         keyv = att.split('=')
         d[keyv[0]] = keyv[1]
