@@ -96,9 +96,10 @@ On Ubuntu server:
 6. Install mod-wsgi for apache ```sudo apt-get install libapache2-mod-wsgi```
 7. Install pip ```sudo apt-get install python-pip```
 8. Install mongodb ```sudo apt-get install mongodb```
-9. Install app requirements ```pip install -r requirements.txt```
-10. Add Widoco and Ar2dTool folders and fix the default configuration files
-
+9. Add Widoco and Ar2dTool folders and fix the default configuration files
+10. Clone the project using the command ```git clone https://github.com/OnToology/OnToology.git``` or u can clone with ssh
+11. Install app requirements ```pip install -r requirements.txt```
+12. create a folder called temp and inside this folder create a folder "log"
 ####Environment variables that need to be set
 
 ```
