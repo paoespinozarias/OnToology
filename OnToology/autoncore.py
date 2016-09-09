@@ -637,6 +637,11 @@ def clone_repo(cloning_repo, parent_folder, dosleep=True):
     dolog('home: %s' % (home))
     dolog('parent_folder: %s' % (parent_folder))
     dolog('logfile: %s' % (log_file_dir))
+    dolog('ssh clone repo: %s' % cloning_repo)
+    tool_token = os.environ['tool_token']
+    # transforming git@github.com:user/reponame.git => https://TOKEN@github.com/user/reponame.git
+    cloning_repo = "https://"+tool_token+"@github.com/"+cloning_repo.split(':')[1]
+    dolog('https clone repo: %s' % cloning_repo)
     if dosleep:
         # the wait time to give github sometime so the repo can be cloned
         time.sleep(sleeping_time)
