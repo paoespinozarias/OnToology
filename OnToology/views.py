@@ -97,10 +97,9 @@ def get_repos_formatted(the_repos):
 def home(request):
     global client_id, client_secret, is_private
     print '****** Welcome to home page ********'
-    print >> sys.stderr, '****** Welcome to the error output ******'
     if 'target_repo' in request.GET:
-        print "we are inside"
         target_repo = request.GET['target_repo']
+        print "Try to add repo: "+str(target_repo)
         if target_repo.strip() == "" or len(target_repo.split('/')) != 2:
             return render(request, 'msg.html', {'msg': 'please enter a valid repo'})
         init_g()
@@ -122,14 +121,14 @@ def home(request):
         if True:
             request.session['access_token_time'] = '1'
             return HttpResponseRedirect(webhook_access_url)
-        if request.user.is_authenticated():
-            generateforall(target_repo, request.user.email)
+        # if request.user.is_authenticated():
+        #     generateforall(target_repo, request.user.email)
     repos = Repo.objects.order_by('-last_used')[:10]
     num_of_users = len(User.objects.all())
     num_of_repos = len(Repo.objects.all())
     last_used = datetime.now()
-    #last_used = Repo.objects.all().order_by('-last_used')[0].last_used
-    #last_used = '%d, %d' % (last_used.month, last_used.year)
+    # last_used = Repo.objects.all().order_by('-last_used')[0].last_used
+    # last_used = '%d, %d' % (last_used.month, last_used.year)
     return render(request, 'home.html', {'repos': repos, 'user': request.user, 'num_of_users': num_of_users,
                                          'num_of_repos': num_of_repos, 'last_used': last_used})
 
@@ -162,9 +161,9 @@ def get_access_token(request):
     request.session['access_token'] = access_token
     # I need to verify this later (today is: 29-Aug-2016). it was causing problems as this token does not have
     # permissions as it used before when I switched off to 3 apps instead of a single one in github
-    # update_g(access_token)
+    # I think this is required according to my understanding of GitHub APIs
+    update_g(access_token)
     print 'access_token: ' + access_token
-
     if request.user.is_authenticated() and request.session['access_token_time'] == '1':
         request.session['access_token_time'] = '2'  # so we do not loop
         #isprivate = get_proper_loggedin_scope(OUser.objects.get(username=request.user.username),
@@ -186,6 +185,7 @@ def get_access_token(request):
     else:
         print 'adding collaborator: ' + rpy_coll['msg']
     if error_msg != "":
+        init_g()
         print "get access token: error_msg: "+str(error_msg)
         if 'Hook already exists on this repository' in error_msg:
             error_msg = 'This repository already watched'
@@ -197,6 +197,7 @@ def get_access_token(request):
     else:
         msg = 'webhook attached and user added as collaborator'
     target_repo = request.session['target_repo']
+    init_g()  # access token is not needed anymore as we added OnToologyUser as a collaborator
     try:
         repo = Repo.objects.get(url=target_repo)
     except Exception as e:
@@ -472,17 +473,13 @@ def profilebeta(request):
 
 @login_required
 def profile(request):
-    try:
-        pass
-    except Exception as e:
-        print 'profile preparing log error [normal]: ' + str(e)
     print '************* profile ************'
     print str(datetime.today())
     if 'fake' in request.GET and request.user.email=='ahmad88me@gmail.com':
         print 'faking the user: '+request.GET['fake']
         user = OUser.objects.get(email=request.GET['fake'])
     else:
-        print 'not faking'
+        # print 'not faking'
         user = request.user
     # ouser = OUser.objects.get(email=request.user.email)
     error_msg = ''
