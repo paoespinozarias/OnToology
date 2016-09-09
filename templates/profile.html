@@ -612,7 +612,7 @@ $( document ).ready(function() {
 
     $(document).on('click', '.generateall-btn', function(){
         alert($(this).attr('repo'));
-        $.get("generateforall", {"repo": $(this).attr('repo'), csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value });
+        $.get("generateforall", {"repo": $(this).attr('repo')});
     });
 
 

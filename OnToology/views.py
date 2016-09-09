@@ -291,7 +291,9 @@ def add_hook(request):
 
 @login_required
 def generateforall_view(request):
+    print 'in generate for all view'
     if 'repo' not in request.GET:
+        print 'repo is not in request.GET'
         return HttpResponseRedirect('/')
     target_repo = request.GET['repo'].strip()
     found = False
@@ -310,6 +312,7 @@ def generateforall_view(request):
     if not found:
         return render(request, 'msg.html',
                       {'msg': 'You need to register/watch this repository while you are logged in'})
+    print 'will call generateforall %s %s' % (target_repo, request.user.email)
     generateforall(target_repo, request.user.email)
     return render_to_response('msg.html', {
         'msg': 'Soon you will find generated files included in a pull request in your repository'},
