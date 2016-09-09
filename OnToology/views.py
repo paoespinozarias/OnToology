@@ -186,6 +186,7 @@ def get_access_token(request):
     else:
         print 'adding collaborator: ' + rpy_coll['msg']
     if error_msg != "":
+        print "get access token: error_msg: "+str(error_msg)
         if 'Hook already exists on this repository' in error_msg:
             error_msg = 'This repository already watched'
         elif '404' in error_msg:  # so no enough access according to Github troubleshooting guide
