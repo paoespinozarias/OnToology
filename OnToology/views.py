@@ -272,8 +272,14 @@ def add_hook(request):
     cloning_repo = cloning_repo.replace(tar, ToolUser)
     cloning_repo = cloning_repo.replace('git://github.com/', 'git@github.com:')
     # comm = "python /home/ubuntu/OnToology/OnToology/autoncore.py "
-    comm = "python %s " % \
-           str((os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py')))
+    #comm = "python %s " % \
+    if 'virtual_env_dir' in os.environ:
+        comm = "%s %s " % \
+               (os.path.join(os.environ['virtual_env_dir'], 'bin', 'python'),
+                (os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py')))
+    else:
+        comm = "python %s " % \
+            (os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py'))
     comm += ' "' + target_repo + '" "' + user + '" "' + cloning_repo + '" '
     for c in changed_files:
         comm += '"' + c + '" '
@@ -328,8 +334,15 @@ def generateforall(target_repo, user_email):
     changed_files = ontologies
     print 'current file dir: %s' % str(os.path.dirname(os.path.realpath(__file__)))
     # comm = "python /home/ubuntu/OnToology/OnToology/autoncore.py "
-    comm = "python %s " % \
-           str((os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py')))
+    # comm = "python %s " % \
+    #       str((os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py')))
+    if 'virtual_env_dir' in os.environ:
+        comm = "%s %s " % \
+               (os.path.join(os.environ['virtual_env_dir'], 'bin', 'python'),
+                (os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py')))
+    else:
+        comm = "python %s " % \
+            (os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py'))
     comm += ' "' + target_repo + '" "' + user + '" "' + cloning_repo + '" '
     for c in changed_files:
         comm += '"' + c.strip() + '" '

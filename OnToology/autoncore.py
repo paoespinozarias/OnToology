@@ -22,9 +22,6 @@ import sys
 import os
 #from github import Github
 
-if 'virtual_env_dir' in os.environ:
-    activate_this = os.path.join(os.environ['virtual_env_dir'], 'bin', 'activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
 
 import github
 from datetime import datetime
