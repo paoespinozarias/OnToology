@@ -634,6 +634,7 @@ def fork_repo(target_repo, username, password):
 
 
 def clone_repo(cloning_repo, parent_folder, dosleep=True):
+    dolog('in clone repo function')
     dolog('home: %s' % (home))
     dolog('parent_folder: %s' % (parent_folder))
     dolog('logfile: %s' % (log_file_dir))

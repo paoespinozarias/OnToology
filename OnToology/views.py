@@ -353,10 +353,12 @@ def generateforall(target_repo, user_email):
     # comm = "python %s " % \
     #       str((os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py')))
     if 'virtual_env_dir' in os.environ:
+        print 'virtual_env_dir is in environ'
         comm = "%s %s " % \
                (os.path.join(os.environ['virtual_env_dir'], 'bin', 'python'),
                 (os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py')))
     else:
+        print 'virtual_env_dir is NOT in environ'
         comm = "python %s " % \
             (os.path.join(os.path.dirname(os.path.realpath(__file__)), 'autoncore.py'))
     comm += ' "' + target_repo + '" "' + user + '" "' + cloning_repo + '" '
