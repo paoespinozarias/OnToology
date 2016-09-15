@@ -6,7 +6,7 @@ import requests
 from . import dolog, get_file_from_path, tools_conf, build_path, get_target_home, get_parent_path, log_file_dir, g
 from . import verification_log_fname
 import rdfxml
-from . import call_and_get_log
+from . import call_and_get_log, timeout_comm
 
 from subprocess import call
 import shutil
@@ -107,7 +107,7 @@ def generate_oops_pitfalls(ont_file, base_dir):
     dolog('ont file abs path: '+ont_file_abs_path)
     out_abs_dir = get_parent_path(r)
     comm = "cd " + base_dir + "; "
-    comm += "java -jar "
+    comm += timeout_comm+" java -jar "
     comm += ' -Dfile.encoding=utf-8 '
     comm += widoco_dir + "widoco-0.0.1-jar-with-dependencies.jar -oops "
     comm += " -ontFile '" + ont_file_abs_path
