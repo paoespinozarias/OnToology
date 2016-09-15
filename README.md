@@ -140,3 +140,9 @@ executed (x permission is given).
 #### Set default configuration files
 In the folder that specified in the environment variable ```ar2dtool_config```, include default configuration files for
 AR2DTool and Widoco.
+
+
+#### More on Mac
+1. timeout command: as Mac doesn't usually come with the timeout command, you can download it via
+```brew install coreutils```  and after that run the command ```alias timeout='gtimeout'``` or add it to your bash or
+virtual environment script.

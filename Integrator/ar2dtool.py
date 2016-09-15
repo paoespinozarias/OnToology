@@ -55,6 +55,7 @@ def draw_file(rdf_file, config_type, base_dir):
         f.close()
     except Exception as e:
         dolog('in draw_file: exception opening the file: ' + str(e))
+        return 'in draw_file: exception opening the file: ' + str(e)
     comm = 'java -jar '
     comm += ar2dtool_dir + 'ar2dtool.jar -i '
     comm += '"' + os.path.join(base_dir, rdf_file) + '"' + ' -o '
@@ -65,6 +66,7 @@ def draw_file(rdf_file, config_type, base_dir):
     # comm += " ; echo 'ar2dtool' >> " + os.path.join(get_parent_path(get_parent_path(
     #    get_parent_path(rdf_file_abs + '.' + outtype))), verification_log_fname)
     dolog("drawing is: "+comm)
+    print "drawing is: "+comm
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     return error_msg

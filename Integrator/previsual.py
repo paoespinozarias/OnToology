@@ -116,7 +116,8 @@ def generate_previsual_page(repo_dir_folder, repo_name):
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     if error_msg != "":
-        return None, None, "Error while generating the previsualization"
+        return None, None, "Error while generating the previsualization, Make sure you have documentation generated for\
+        at least for one ontology"
     temp_folder_ontoology = os.path.join(repo_parent_folder, sec_doc_prev)
     comm = "mv %s %s" % (os.path.join(repo_dir_folder, 'OnToology'), temp_folder_ontoology)
     # comm = "rm -Rf %s" % os.path.join(repo_dir_folder, 'OnToology')
