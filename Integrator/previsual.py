@@ -66,21 +66,21 @@ def generate_previsual(repo_dir, target_repo):
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     if error_msg != "":
-        return "Error while generating the previsualization"
+        return "Error while generating the previsualization, make sure to create gh-pages branch for your repository"
     comm = 'cp -Rf %s/* %s ;' % (temp_previsual_folder_dir, repo_dir)
     dolog('comm: '+comm)
     # call(comm, shell=True)
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     if error_msg != "":
-        return "Error while generating the previsualization"
+        return "Error while generating the previsualization, unable to copy the files"
     comm = "mv %s %s" % (os.path.join(temp_folder_ontoology, 'OnToology'), repo_dir)
     dolog("comm (move back): "+comm)
     # call(comm, shell=True)
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     if error_msg != "":
-        return "Error while generating the previsualization"
+        return "Error while generating the previsualization, unable to move the files to gh-pages"
     comm = "cd "+repo_dir
     comm += ';git config user.email "%s"' % ToolEmail
     comm += ';git config user.name "%s"' % ToolUser
