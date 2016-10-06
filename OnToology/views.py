@@ -73,32 +73,6 @@ reload(sys)
 sys.setdefaultencoding("UTF-8")
 
 
-def get_repos_formatted(the_repos):
-    return the_repos
-
-#     repos = []
-#     for orir in the_repos:
-#         r = {}
-#         for ke in orir:
-#             r[ke]  = orir[ke]
-#         tools = r['monitoring'].split(",")
-#         monit=""
-#         for t in tools:   
-#             keyval = t.split("=")
-#             if len(keyval) != 2:
-#                 break
-#             if keyval[1].lower().strip()=='true':
-#                 keyval[1]='Yes'
-#             else:
-#                 keyval[1]='No'
-#             print r['url']+" "+keyval[0]+"="+str(keyval[1])
-#             r[keyval[0].strip()]=keyval[1]
-#             monit+="=".join(keyval) +","
-#         r['monitoring'] = monit
-#         repos.append(r)
-#     return repos
-
-
 def home(request):
     global client_id, client_secret, is_private
     print '****** Welcome to home page ********'

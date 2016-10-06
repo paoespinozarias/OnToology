@@ -705,6 +705,7 @@ def remove_old_pull_requests(target_repo):
             if p.title == title:
                 p.edit(state="closed")
         except Exception as e:
+            print "Exception removing an old pull request: "+str(e)
             dolog("Exception removing an old pull request: "+str(e))
 
 

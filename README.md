@@ -12,10 +12,12 @@ License: Apache License v2 (http://www.apache.org/licenses/LICENSE-2.0)
 
 ###Project Plan
 * Provide a better solution for handling private and public repos.
-* Add new features (e.g. integrate with GitLab and Bitbucket)
-* Deploy on the live server (now on a testing server)
-* Prepare automated testing (in progress)
-
+* Add new features (e.g. integrate with GitLab and Bitbucket).
+* Deploy on the live server (now on a testing server).
+* Prepare automated testing (in progress).
+* Automated tests for pull requests.
+* Use decorators for input validation.
+* Use profilers.
 
 
 ###What the system does now:
