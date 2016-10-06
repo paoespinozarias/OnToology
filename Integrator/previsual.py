@@ -64,9 +64,9 @@ def generate_previsual(repo_dir, target_repo):
     dolog("comm: "+comm)
     # call(comm, shell=True)
     error_msg, msg = call_and_get_log(comm)
-    dolog(msg+error_msg)
-    if error_msg != "":
-        return "Error while generating the previsualization, make sure to create gh-pages branch for your repository"
+    # dolog(msg+error_msg)
+    # if error_msg != "":
+    #     return "Error while generating the previsualization, make sure to create gh-pages branch for your repository"
     comm = 'cp -Rf %s/* %s ;' % (temp_previsual_folder_dir, repo_dir)
     dolog('comm: '+comm)
     # call(comm, shell=True)
@@ -90,9 +90,9 @@ def generate_previsual(repo_dir, target_repo):
     dolog('will call: '+comm)
     error_msg, msg = call_and_get_log(comm)
     # return_code = call(comm, shell=True)
-    dolog(msg+error_msg)
-    if error_msg != "":
-        return "error pushing the generated files into"
+    # dolog(msg+error_msg)
+    # if error_msg != "":
+    #     return "error pushing the generated files into"
     return ""
 
 
@@ -116,8 +116,7 @@ def generate_previsual_page(repo_dir_folder, repo_name):
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     if error_msg != "":
-        return None, None, "Error while generating the previsualization, Make sure you have documentation generated for\
-        at least for one ontology"
+        return None, None, "Error while generating the previsualization, error creating temp folder"
     temp_folder_ontoology = os.path.join(repo_parent_folder, sec_doc_prev)
     comm = "mv %s %s" % (os.path.join(repo_dir_folder, 'OnToology'), temp_folder_ontoology)
     # comm = "rm -Rf %s" % os.path.join(repo_dir_folder, 'OnToology')
@@ -126,7 +125,8 @@ def generate_previsual_page(repo_dir_folder, repo_name):
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     if error_msg != "":
-        return None, None, "Error while generating the previsualization, unable to move ontology files"
+        return None, None, "Error while generating the previsualization, Make sure you have documentation generated for\
+        at least for one ontology "
     sec_prev = 'prev-'+sec
     temp_folder_prev = os.path.join(temp_dir, sec_prev)
     comm = timeout_comm + " java -jar %s -i %s -o %s -n %s" % \
@@ -135,9 +135,9 @@ def generate_previsual_page(repo_dir_folder, repo_name):
     dolog('comm: '+comm)
     # call(comm, shell=True)
     error_msg, msg = call_and_get_log(comm)
-    dolog(msg+error_msg)
-    if error_msg != "":
-        return None, None, "Error while generating the previsualization, originated from vocabLite"
+    #dolog("error: "+msg+error_msg)
+    #if error_msg != "":
+    #    return None, None, "Error while generating the previsualization, originated from vocabLite"
     # comm = "mv %s %s" % (os.path.join(temp_folder_ontoology, 'OnToology'), repo_dir_folder)
     # dolog("comm (move back): "+comm)
     # call(comm, shell=True)
