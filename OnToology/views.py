@@ -73,6 +73,10 @@ reload(sys)
 sys.setdefaultencoding("UTF-8")
 
 
+def chat(request):
+    return render(request, 'chat.html')
+
+
 def home(request):
     global client_id, client_secret, is_private
     print '****** Welcome to home page ********'

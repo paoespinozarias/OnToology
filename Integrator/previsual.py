@@ -126,7 +126,7 @@ def generate_previsual_page(repo_dir_folder, repo_name):
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     if error_msg != "":
-        return None, None, "Error while generating the previsualization"
+        return None, None, "Error while generating the previsualization, unable to move ontology files"
     sec_prev = 'prev-'+sec
     temp_folder_prev = os.path.join(temp_dir, sec_prev)
     comm = timeout_comm + " java -jar %s -i %s -o %s -n %s" % \
@@ -137,7 +137,7 @@ def generate_previsual_page(repo_dir_folder, repo_name):
     error_msg, msg = call_and_get_log(comm)
     dolog(msg+error_msg)
     if error_msg != "":
-        return None, None, "Error while generating the previsualization"
+        return None, None, "Error while generating the previsualization, originated from vocabLite"
     # comm = "mv %s %s" % (os.path.join(temp_folder_ontoology, 'OnToology'), repo_dir_folder)
     # dolog("comm (move back): "+comm)
     # call(comm, shell=True)
