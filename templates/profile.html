@@ -607,7 +607,9 @@ $( document ).ready(function() {
     });
 
     $(document).on('click', '.bundle-btn', function(){
-        $.post("get_bundle", {"repo": $(this).attr('repo'), "ontology": $(this).attr('ontology'), csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value });
+    	window.location.href = "/get_bundle?repo="+$(this).attr('repo')+"&ontology="+$(this).attr('ontology');
+    	//$.get("get_bundle", {"repo": $(this).attr('repo'), "ontology": $(this).attr('ontology') });
+        //$.post("get_bundle", {"repo": $(this).attr('repo'), "ontology": $(this).attr('ontology'), csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value });
     });
 
     $(document).on('click', '.generateall-btn', function(){
