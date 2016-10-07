@@ -103,13 +103,13 @@ function GetURLParameter(sParam)
                 <!--<div class="panel color5back">-->
                 <div class="panel panel-info">
             {%endif%}
-                    <div class="panel-heading  " >
+                    <div class="panel-heading firsttime" >
                         <h4 class="panel-title">
                             <a data-toggle="collapse" class="accordion-toggle" data-parent="#accordion"
                                href="#coll{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-md-1 col-xs-1 ">
-                                        <i class="indicator glyphicon glyphicon-chevron-down "></i>
+                                        <i class="indicator glyphicon glyphicon-chevron-down"></i>
                                     </div>
                                     <div class="col-md-4 col-xs-4 darktext" style="text-align: left"><a href="http://www.github.com/{{r.url}}" target="_blank">{{r.url}}</a>
                                     </div>
@@ -463,6 +463,8 @@ $( document ).ready(function() {
 				    }
 				});
 	});
+
+
 	
 }); 
 
@@ -630,6 +632,15 @@ function toggleChevron(e) {
         .find("i.indicator")
         .toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
 }
+
+
+$(document).on('click', ".firsttime", function(){
+		alert("This is the first time");
+		$(this).removeClass("firsttime");
+		$(this).find(".repo").click();
+		$(this).find(".glyphicon-chevron-down").click();
+	});
+
 //$('#accordion').on('hidden.bs.collapse', toggleChevron);
 //$('#accordion').on('shown.bs.collapse', toggleChevron);
 $('#accordion').on('hide.bs.collapse', toggleChevron);
