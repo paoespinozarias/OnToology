@@ -836,10 +836,6 @@ def superadmin(request):
 
 @login_required
 def get_bundle(request):
-
-    #just for testing
-    return test_bundle(request)
-
     ontology = request.GET['ontology']
     repo = request.GET['repo']
     r = Repo.objects.filter(url=repo)
@@ -870,12 +866,3 @@ def get_bundle(request):
             print "returning"
         return response
 
-
-def test_bundle(request):
-    zip_dir = '/Users/blakxu/test123/OnToologyTestEnv/temp/bundle-Rqc/alo.owl.zip'
-    with open(zip_dir, 'r') as f:
-        print "opened the file %s" % zip_dir
-        response = HttpResponse(f.read(), content_type='application/zip')
-        response['Content-Disposition'] = 'attachment; filename="%s"' % zip_dir.split('/')[-1]
-        print "returning"
-    return response
