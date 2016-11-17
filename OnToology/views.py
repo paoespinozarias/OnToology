@@ -55,10 +55,13 @@ client_id_login = os.environ['client_id_login']       # 'e2ea731b481438fd1675'
 client_id_public = os.environ['client_id_public']     # '878434ff1065b7fa5b92'
 client_id_private = os.environ['client_id_private']   # 'dd002c8587d08edfaf5f'
 
+
 client_secret_login = os.environ['client_secret_login']        # 'ba0f149934e3d78816cbd89d1f3c5109b82898ab'
 client_secret_public = os.environ['client_secret_public']       # 'c76144cbbbf5df080df0232928af9811d78792dd'
 client_secret_private = os.environ['client_secret_private']      # 'c5fbaa760362ba23f7c8d07c35021ac111ca5418'
 
+# print client_id_login
+# print client_secret_login
 
 settings.SECRET_KEY = os.environ['SECRET_KEY']
 client_id = None
@@ -364,6 +367,8 @@ def login(request):
     # scope = 'admin:org_hook'
     # scope+=',admin:org,admin:public_key,admin:repo_hook,gist,notifications,delete_repo,repo_deployment,repo,public_repo,user,admin:public_key'
     redirect_url = "https://github.com/login/oauth/authorize?client_id=" + client_id_login + "&redirect_uri=" + redirect_url + "&scope=" + scope + "&state=" + sec
+    print "redirect url: "
+    print redirect_url
     return HttpResponseRedirect(redirect_url)
 
 

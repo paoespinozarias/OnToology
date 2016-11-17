@@ -220,12 +220,14 @@ def call_and_get_log(comm):
     :return: error message, output of the call
     """
     temp_dir = os.environ['github_repos_dir']
+    print "temp dir: "+str(temp_dir)
     sec = ''.join([random.choice(string.ascii_letters + string.digits)
                    for _ in range(9)])
     fname_output = 'call-output-'+sec
     fname_output = os.path.join(temp_dir, fname_output)
     fname_err = 'call-error-'+sec
     fname_err = os.path.join(temp_dir, fname_err)
+    print "229 fname output: "+str(fname_output)
     f = open(fname_output, 'w')
     ferr = open(fname_err, 'w')
     call(comm, stdout=f, stderr=ferr, shell=True)

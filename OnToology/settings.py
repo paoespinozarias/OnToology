@@ -64,12 +64,17 @@ GITHUB_LOCAL_API_SECRET = '141f896e53db4a4427db177f1ef2c9975e8a3c1f'
 # host = 'http://ontoology.linkeddata.es'
 host = 'http://ontoologytest.linkeddata.es'
 
+
 local = False
 if 'OnToology_home' in os.environ and os.environ['OnToology_home'].lower() == "true":
     local = True
     host = 'http://127.0.0.1:8000'
     client_id = GITHUB_LOCAL_APP_ID
     client_secret = GITHUB_LOCAL_API_SECRET
+    print "Going local"
+else:
+    print "Going remote"
+    print os.environ
 
 
 from mongoengine import connect
