@@ -419,16 +419,13 @@ def login_get_access(request):
             user.save()
         except:
             print '<%s,%s>' % (email, username)
-            sys.stdout.flush()
-            sys.stderr.flush()
             # The password is never important but we set it here because it is required by User class
             user = OUser.create_user(username=username, password=request.session['state'], email=email)
             user.backend = 'mongoengine.django.auth.MongoEngineBackend'
             user.save()
     django_login(request, user)
     print 'access_token: ' + access_token
-    sys.stdout.flush()
-    sys.stderr.flush()
+    return None
     return HttpResponseRedirect('/')
 
 
